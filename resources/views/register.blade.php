@@ -78,12 +78,12 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+    {{-- <script>
         Swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Something went wrong!",
         });
-    </script>
+    </script> --}}
 </body>
 </html>
