@@ -20,34 +20,24 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:tb_petugas,email',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
         ]);
 
-        // Retrieve the last registered user with id_petugas starting with 'PTG'
-        $lastUser = User::where('id_petugas', 'LIKE', 'PTG%')
-                        ->orderBy('id_petugas', 'desc')
-                        ->first();
+        $last = User::count();
 
-        // Generate a new id_petugas
-        if ($lastUser) {
-            $lastIdNumber = (int) substr($lastUser->id_petugas, 3);
-            $newIdNumber = $lastIdNumber + 1;
-            $newIdPetugas = 'PTG' . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
-        } else {
-            $newIdPetugas = 'PTG001';
+        $newIdPetugas = 'PTG' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
+
+        $user = User::create([
+            'id_petugas' => $newIdPetugas,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        if (!$user) {
+            return back()->with('error', 'Gagal mendaftar');
         }
 
-        // Create new user
-        $user = new User();
-        $user->id_petugas = $newIdPetugas;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-
-        // Save user
-        $user->save();
-
-        // Redirect to login page with success message
         return redirect('/login')->with('success', 'Register Sukses, silahkan login.');
     }
 

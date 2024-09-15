@@ -57,14 +57,23 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama</label>
                             <input type="text" name="name" class="form-control" id="name" placeholder="Nama Anda" required>
+                            @error('name')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" name="email" class="form-control" id="email" placeholder="xxx@gmail.com" required>
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
                             <input type="password" name="password" class="form-control" id="password" placeholder="Password Anda" required>
+                            @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Register</button>
@@ -78,12 +87,23 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script>
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-        });
-    </script> --}}
+    @if (Session::has('error'))
+    <script>
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "{{ Session::get('error') }}",
+    });
+    </script>
+    @endif
+    @if (Session::has('success'))
+    <script>
+    Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "{{ Session::get('success') }}",
+    });
+    </script>
+    @endif
 </body>
 </html>
