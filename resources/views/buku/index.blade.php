@@ -34,8 +34,8 @@
             <td>{{ $item->penerbit }}</td>
             <td>{{ $item->tahun_terbit }}</td>
             <td>{{ $item->stok }}</td>
-            <td>{{ $item->id_kategori }}</td>
-             <td>{{ $item->id_rak}}</td>
+            <td>{{ $item->nama_kategori }}</td>
+             <td>{{ $item->nama_rak}}</td>
 
             <td>
                 <a href="{{ route('buku.edit', $item->id_buku) }}" class="btn btn-warning btn-sm">Edit</a>

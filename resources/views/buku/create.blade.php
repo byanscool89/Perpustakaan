@@ -36,7 +36,7 @@
         </div>
         <div class="mb-3">
             <label for="kategori" class="form-label">Pilih Kategori</label>
-            <select class="form-select" id="id_kategori" name="kategori" required>
+            <select class="form-select" id="id_kategori" name="id_kategori" required>
                 <option value="" selected disabled>Pilih Kategori</option>
                 @foreach ($optionKategori as $kategori)
                     <option value="{{ $kategori->id_kategori }}">{{ $kategori->nama_kategori }}</option>
@@ -45,7 +45,7 @@
         </div>
         <div class="mb-3">
             <label for="rak" class="form-label">Pilih Rak</label>
-            <select class="form-select" id="id_rak" name="rak" required>
+            <select class="form-select" id="id_rak" name="id_rak" required>
                 <option value="" selected disabled>Pilih Rak</option>
                 @foreach ($optionRak as $rak)
                 <option value="{{ $rak->id_rak }}">{{ $rak->nama_rak }}</option>

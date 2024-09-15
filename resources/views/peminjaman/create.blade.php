@@ -20,10 +20,12 @@
 
     <form action="{{ route('peminjaman.store') }}" method="POST">
         @csrf
-        <div class="mb-3">
+        @method('POST')
+        {{-- <div class="mb-3">
             <label for="id_peminjaman" class="form-label">ID Peminjaman</label>
             <input type="text" class="form-control" id="id_peminjaman" name="id_peminjaman"  required>
-        </div>
+        </div> --}}
+        {{-- <input type="text" name="id_petugas" value="{{ auth()->user()->id_petugas }}"> --}}
         <div class="mb-3">
             <label for="tgl_pinjam" class="form-label">Tanggal Pinjam</label>
             <input type="date" class="form-control" id="tgl_pinjam" name="tgl_pinjam"  required>
@@ -31,6 +33,24 @@
         <div class="mb-3">
             <label for="tgl_kembali" class="form-label">Tanggal Kembali</label>
             <input type="date" class="form-control" id="tgl_kembali" name="tgl_kembali" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_anggota" class="form-label">Nama Anggota</label>
+            <select class="form-select" id="id_anggota" name="id_anggota" required>
+                <option value="" selected disabled>Pilih Anggota</option>
+                @foreach ($anggota as $item)
+                    <option value="{{ $item->id_anggota }}">{{ $item->nama_anggota }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="id_buku" class="form-label">Judul Buku</label>
+            <select class="form-select" id="id_buku" name="id_buku" required>
+                <option value="" selected disabled>Pilih Buku</option>
+                @foreach ($buku as $item)
+                    <option value="{{ $item->id_buku }}">{{ $item->judul }}</option>
+                @endforeach
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>

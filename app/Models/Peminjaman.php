@@ -14,9 +14,10 @@ class Peminjaman extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = [
-        'id_peminjaman',
-        'tgl_pinjam',
-        'tgl_kembali',
-    ];
+    // protected $fillable = [
+    //     'id_peminjaman',
+    //     'tgl_pinjam',
+    //     'tgl_kembali',
+    // ];
+    protected $guarded = [];
 }

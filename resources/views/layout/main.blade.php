@@ -9,7 +9,7 @@
     />
     <link
       rel="icon"
-      href="{{asset('petugas/assets/img/kaiadmin/favicon.ico')}}"
+      href="{{asset('logo.png')}}"
       type="image/x-icon"
     />
 
@@ -139,5 +139,24 @@
 
     <!-- Kaiadmin JS -->
     <script src="{{asset('petugas/assets/js/kaiadmin.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (Session::has('error'))
+    <script>
+    Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "{{ Session::get('error') }}",
+    });
+    </script>
+    @endif
+    @if (Session::has('success'))
+    <script>
+    Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text: "{{ Session::get('success') }}",
+    });
+    </script>
+    @endif
   </body>
 </html>

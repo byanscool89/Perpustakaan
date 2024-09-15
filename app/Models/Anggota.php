@@ -13,7 +13,8 @@ class Anggota extends Model
     protected $primaryKey = 'id_anggota';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = [
-        'id_anggota', 'nama_anggota', 'jk_kelamin', 'alamat_anggota', 'no_telp', 'status_anggota'
-    ];
+    // protected $fillable = [
+    //     'id_anggota', 'nama_anggota', 'jk_kelamin', 'alamat_anggota', 'no_telp', 'status_anggota'
+    // ];
+    protected $guarded = [];
 }

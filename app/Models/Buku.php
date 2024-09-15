@@ -22,15 +22,6 @@ class Buku extends Model
     protected $keyType = 'string';
 
     // Specify the fillable fields
-    protected $fillable = [
-        'id_buku',
-        'judul',
-        'isbn',
-        'penulis',
-        'penerbit',
-        'tahun_terbit',
-        'stok'
-
-    ];
+    protected $guarded = [];
 
 }

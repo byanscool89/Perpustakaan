@@ -32,7 +32,7 @@
                                         <h6><b>Rekap Peminjaman</b></h6>
                                         <p class="text-muted">Total</p>
                                     </div>
-                                    <h4 class="text-success fw-bold">12</h4>
+                                    <h4 class="text-success fw-bold">{{  $jumlahPeminjaman   }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                                         <h6><b>Total Anggota</b></h6>
                                         <p class="text-muted">Total</p>
                                     </div>
-                                    <h4 class="text-secondary fw-bold">12</h4>
+                                    <h4 class="text-secondary fw-bold">{{ $jumlahAnggota }}</h4>
                                 </div>
                             </div>
                         </div>

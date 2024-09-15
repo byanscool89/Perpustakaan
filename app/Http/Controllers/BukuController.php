@@ -13,7 +13,11 @@ class BukuController extends Controller
     // Display a listing of the books
     public function index()
     {
-        $buku = Buku::all();
+        $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
+            ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
+            ->select('tb_buku.*', 'tb_rak.nama_rak', 'tb_kategori.nama_kategori')
+            ->get();
+
         return view('buku.index', compact('buku'));
     }
 
@@ -43,30 +47,20 @@ class BukuController extends Controller
 
         ]);
 
-        $newBook = '';
-        $lastBook = Buku::where('id_buku', 'LIKE', 'RAK%')
-                      ->orderBy('id_buku', 'desc')
-                      ->first();
-
-        // Generate a new id_buku
-        if ($lastBook) {
-            // Extract the number part from the last id_buku and increment it
-            $lastIdNumber = (int) substr($lastBook->id_buku, 3);
-            $newIdNumber = $lastIdNumber + 1;
-            $newBook = 'BK' . str_pad($newIdNumber, 3, '0', STR_PAD_LEFT);
-        } else {
-            // If no rak exists, start with RAK001
-            $newBook = 'BK001';
-        }
+        $last = Buku::count();
+        $newBook = 'BK' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
 
         Buku::create([
             'id_buku' => $newBook,
             'judul' => $validated['judul'],
             'isbn' => $validated['isbn'],
-            'penulis' => $validated['isbn'],
-            'penerbit' => $validated['isbn'],
-            'tahun_terbit' =>$validated['isbn'] ,
-            'stok' =>$validated['isbn'] ,
+            'penulis' => $validated['penulis'],
+            'penerbit' => $validated['penerbit'],
+            'tahun_terbit' =>$validated['tahun_terbit'] ,
+            'stok' =>$validated['stok'] ,
+            'id_kategori' => $validated['id_kategori'],
+            'id_rak' => $validated['id_rak'],
+
         ]);
 
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
@@ -75,33 +69,52 @@ class BukuController extends Controller
     // Display the specified book
     public function show($id)
     {
-        $buku = Buku::findOrFail($id);
-        return view('buku.show', compact('buku'));
+        $optionKategori = Kategori::all();
+        $optionRak = Rak::all();
+        $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
+            ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
+            ->where('tb_buku.id_buku', $id)
+            ->select('tb_buku.*', 'tb_rak.*', 'tb_kategori.*')
+            ->first();
+        return view('buku.show', compact('buku', 'optionKategori', 'optionRak'));
     }
 
     // Show the form for editing the specified book
     public function edit($id)
     {
-        $buku = Buku::findOrFail($id);
-        return view('buku.edit', compact('buku'));
+        $optionKategori = Kategori::all();
+        $optionRak = Rak::all();
+        $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
+            ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
+            ->where('tb_buku.id_buku', $id)
+            ->select('tb_buku.*', 'tb_rak.*', 'tb_kategori.*')
+            ->first();
+        return view('buku.edit', compact('buku', 'optionKategori', 'optionRak'));
     }
 
     // Update the specified book in storage
     public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'judul' => 'required|string|max:100',
-            'isbn' => 'nullable|string|max:100',
-            'penulis' => 'required|string|max:100',
-            'penerbit' => 'required|string|max:100',
-            'tahun_terbit' => 'nullable|integer|min:1000|max:9999',
-            'stok' => 'nullable|integer|min:0',
-        ]);
+{
 
-        Buku::where('id_buku', $id)->update($validated);
+    // Fetch the existing book record
+    $buku = Buku::findOrFail($id); // Fetch the book directly without joining
 
-        return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui');
-    }
+    // Update the book using validated input or fallback to existing values
+    $buku->update([
+        'judul' => $request->judul ?? $buku->judul,
+        'isbn' => $request->isbn ?? $buku->isbn,
+        'penulis' => $request->penulis ?? $buku->penulis,
+        'penerbit' => $request->penerbit ?? $buku->penerbit,
+        'tahun_terbit' => $request->tahun_terbit ?? $buku->tahun_terbit,
+        'stok' => $request->stok ?? $buku->stok,
+        'id_kategori' => $request->id_kategori ?? $buku->id_kategori,
+        'id_rak' => $request->id_rak ?? $buku->id_rak,
+    ]);
+
+    // Redirect with success message
+    return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui');
+}
+
 
     // Remove the specified book from storage
     public function destroy($id)

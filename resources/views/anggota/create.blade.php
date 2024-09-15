@@ -10,13 +10,16 @@
         <h1 class="mb-3">Tambah Anggota Baru</h1>
         <form action="{{ route('anggota.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
+            {{-- <div class="mb-3">
                 <label for="id_anggota" class="form-label">ID Anggota</label>
                 <input type="text" class="form-control" id="id_anggota" name="id_anggota" required>
-            </div>
+            </div> --}}
             <div class="mb-3">
                 <label for="nama_anggota" class="form-label">Nama</label>
                 <input type="text" class="form-control" id="nama_anggota" name="nama_anggota" required>
+                @error('nama_anggota')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-3">
                 <label for="jk_kelamin" class="form-label">Jenis Kelamin</label>

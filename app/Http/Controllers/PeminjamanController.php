@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
+use App\Models\Buku;
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
+use Illuminate\Support\Facades\Auth;
+
 
 class PeminjamanController extends Controller
 {
@@ -15,20 +19,33 @@ class PeminjamanController extends Controller
 
     public function create()
     {
-        // $kategori = Kategori::all();
+        $anggota = Anggota::all();
+        $buku = Buku::all();
 
-        return view('peminjaman.create');
+        return view('peminjaman.create', compact('anggota', 'buku'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_peminjaman' => 'required|unique:peminjaman,id_peminjaman|max:15',
+            'id_anggota' => 'required',
+            // 'id_petugas' => 'required',
+            'id_buku' => 'required',
             'tgl_pinjam' => 'required|date',
             'tgl_kembali' => 'nullable|date|after_or_equal:tgl_pinjam',
         ]);
 
-        Peminjaman::create($request->all());
+        $last = Peminjaman::count();
+        $idPeminjaman = 'PJM' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
+
+        Peminjaman::create([
+            'id_peminjaman' => $idPeminjaman,
+            'id_anggota' => $request->id_anggota,
+            'tgl_pinjam' => $request->tgl_pinjam,
+            'tgl_kembali' => $request->tgl_kembali,
+            'id_petugas' => Auth::user()->id_petugas,
+            'id_buku' => $request->id_buku,
+        ]);
 
         return redirect()->route('peminjaman.index')->with('success', 'Data peminjaman berhasil disimpan');
     }

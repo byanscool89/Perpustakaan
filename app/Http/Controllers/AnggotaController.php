@@ -21,7 +21,7 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'id_anggota' => 'required|unique:tb_anggota,id_anggota',
+            // 'id_anggota' => 'required|unique:tb_anggota,id_anggota',
             'nama_anggota' => 'required|string|max:100',
             'jk_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'alamat_anggota' => 'nullable|string|max:100',
@@ -29,8 +29,11 @@ class AnggotaController extends Controller
             'status_anggota' => 'required|in:siswa,karyawan',
         ]);
 
+        $last = Anggota::count();
+        $idAnggota = 'AGT' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
+
         Anggota::create([
-            'id_anggota' => $request->id_anggota,
+            'id_anggota' => $idAnggota,
             'nama_anggota' => $request->nama_anggota,
             'jk_kelamin' => $request->jk_kelamin,
             'alamat_anggota' => $request->alamat_anggota,

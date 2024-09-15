@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
+use App\Models\Peminjaman;
+use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('home');
+        $jumlahAnggota = Anggota::count();
+        $jumlahPeminjaman = Peminjaman::count();
+        return view('home', compact('jumlahAnggota','jumlahPeminjaman'));
     }
 }
