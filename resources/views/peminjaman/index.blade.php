@@ -21,15 +21,21 @@
                 <th>ID Peminjaman</th>
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
+                <th>Nama Anggota</th>
+                <th>Judul Buku</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($peminjaman as $item)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->id_peminjaman }}</td>
                 <td>{{ $item->tgl_pinjam }}</td>
                 <td>{{ $item->tgl_kembali }}</td>
+                <td>{{ $item->nama_anggota }}</td>
+                <td>{{ $item->judul_buku }}</td>
+
+
                 <td>
                     <a href="{{ route('peminjaman.edit', $item->id_peminjaman) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form action="{{ route('peminjaman.destroy', $item->id_peminjaman) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item?');">

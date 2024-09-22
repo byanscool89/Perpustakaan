@@ -57,3 +57,22 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @endsection
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (Session::has('error'))
+<script>
+Swal.fire({
+    icon: "error",
+    title: "Oops...",
+    text: "{{ Session::get('error') }}",
+});
+</script>
+@endif
+@if (Session::has('success'))
+<script>
+Swal.fire({
+    icon: "success",
+    title: "Berhasil",
+    text: "{{ Session::get('success') }}",
+});
+</script>
+@endif

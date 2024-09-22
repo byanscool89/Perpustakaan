@@ -22,14 +22,10 @@ class Kategori extends Model
     protected $keyType = 'string';
 
     // Specify the fillable fields
-    protected $fillable = [
-        'id_kategori',
-        'nama_kategori'
+    protected $guarded = [
+
     ];
 
     // Define the relationship with Buku
-    public function buku()
-    {
-        return $this->hasMany(Buku::class, 'id_kategori', 'id_kategori');
-    }
+
 }

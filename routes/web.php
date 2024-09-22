@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\KategoriController;
 
 
 Route::get('/', function () {
@@ -49,6 +50,17 @@ Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name
 Route::put('/peminjaman/{id}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
 Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
 Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
+
+
+Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
+Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('kategori.show');
+
+//-----------------------------------------
 
     }
 );

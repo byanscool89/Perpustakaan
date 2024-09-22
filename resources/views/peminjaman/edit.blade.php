@@ -30,6 +30,16 @@
             <label for="tgl_kembali" class="form-label">Tanggal Kembali</label>
             <input type="date" class="form-control" id="tgl_kembali" name="tgl_kembali" value="{{ $peminjaman->tgl_kembali }}">
         </div>
+        <div class="mb-3">
+            <label for="nama_anggota" class="form-label">Nama Anggota</label>
+            <input type="text" class="form-control" id="nama_anggota" name="nama_anggota" value="{{ $peminjaman->nama_anggota }}">
+        </div>
+        <div class="mb-3">
+            <label for="judul_buku" class="form-label">Tanggal Kembali</label>
+            <input type="text" class="form-control" id="judul_buku" name="judul_buku" value="{{ $peminjaman->judul_buku }}">
+        </div>
+
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
