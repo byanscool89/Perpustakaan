@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Daftar Peminjaman</h1>
         <a href="{{ route('peminjaman.create') }}" class="btn btn-secondary">
-            Kembali
+            Tambah Peminjaman
         </a>
     </div>
 

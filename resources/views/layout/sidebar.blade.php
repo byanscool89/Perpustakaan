@@ -36,13 +36,13 @@
           </li>
 
           <li class="nav-item active" style="margin-bottom: 25px;">
-            <a href="{{ route('buku.create') }}">
+            <a href="{{ route('buku.index') }}">
               <p>Buku</p>
             </a>
           </li>
 
           <li class="nav-item active" style="margin-bottom: 25px;">
-            <a href="{{ route('peminjaman.create') }}">
+            <a href="{{ route('peminjaman.index') }}">
               <p>Peminjaman</p>
             </a>
           </li>
@@ -54,7 +54,7 @@
           </li>
 
           <li class="nav-item active" style="margin-bottom: 25px;">
-            <a href="{{ route('anggota.create') }}">
+            <a href="{{ route('anggota.index') }}">
               <p>Anggota</p>
             </a>
           </li>
