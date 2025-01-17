@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('stok')->nullable();
             $table->string('id_kategori');
             $table->string('id_rak');
+            $table->enum('status', ['dipinjam', 'dikembalikan'])->nullable();
             // $table->foreign('id_kategori')->references('id_kategori')->on('tb_kategori');
             $table->timestamps();
         });
