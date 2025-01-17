@@ -17,6 +17,22 @@ class AnggotaController extends Controller
     {
         return view('anggota.create');
     }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        
+        // Query pencarian
+        $anggota = Anggota::where('id_anggota', 'like', "%$keyword%")
+            ->orWhere('nama_anggota', 'like', "%$keyword%")
+            ->orWhere('jk_kelamin', 'like', "%$keyword%")
+            ->orWhere('alamat_anggota', 'like', "%$keyword%")
+            ->orWhere('no_telp', 'like', "%$keyword%")
+            ->orWhere('status_anggota', 'like', "%$keyword%")
+            ->get();
+
+        // Kembalikan hasil ke view
+        return view('anggota.index', compact('anggota'));
+    }
 
     public function store(Request $request)
     {

@@ -9,6 +9,12 @@
             Tambah Buku
         </a>
     </div>
+    <form action="{{ route('buku.search') }}" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" name="keyword" class="form-control" placeholder="Cari buku..." value="{{ request('keyword') }}">
+            <button class="btn btn-primary" type="submit">Cari</button>
+        </div>
+    </form>
 
     <table class="table table-bordered">
         <tr>

@@ -13,6 +13,9 @@ class HomeController extends Controller
     {
         $jumlahAnggota = Anggota::count();
         $jumlahPeminjaman = Peminjaman::count();
-        return view('home', compact('jumlahAnggota','jumlahPeminjaman'));
+        $jumlahPengembalian = Pengembalian::count(); // Variabel ini dihitung tetapi tidak dipakai di compact()
+    
+        return view('home', compact('jumlahAnggota', 'jumlahPeminjaman', 'jumlahPengembalian'));
     }
+    
 }

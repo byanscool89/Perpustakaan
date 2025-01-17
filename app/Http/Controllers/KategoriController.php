@@ -23,9 +23,10 @@ class KategoriController extends Controller
     // Store a newly created category in the database
     public function store(Request $request)
     {
-        $request->validate([
+        $cek = $request->validate([
             'nama_kategori' => 'required|string|max:255',
         ]);
+
 
         $lastKategori = Kategori::orderBy('id_kategori', 'desc')->first();
         if ($lastKategori) {
@@ -53,18 +54,21 @@ class KategoriController extends Controller
 
     // Update the specified category in the database
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nama_kategori' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'nama_kategori' => 'required|string|max:255',
+    ]);
 
-        $kategori = Kategori::findOrFail($id);
-        $kategori->update([
-            'nama_kategori' => $request->nama_kategori,
-        ]);
+    // Jika id menggunakan format KTG, pastikan disesuaikan
+    $id = 'KTG' . str_pad((int)$id, 3, '0', STR_PAD_LEFT);
 
-        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui');
-    }
+    $kategori = Kategori::where('id_kategori', $id)->firstOrFail();
+    $kategori->update([
+        'nama_kategori' => $request->nama_kategori,
+    ]);
+
+    return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui');
+}
 
     // Remove the specified category from the database
     public function destroy($id)

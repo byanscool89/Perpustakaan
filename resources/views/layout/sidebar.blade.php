@@ -48,7 +48,7 @@
           </li>
 
           <li class="nav-item active" style="margin-bottom: 25px;">
-            <a href="">
+            <a href="{{route('pengembalian.index')}}">
               <p>Pengembalian</p>
             </a>
           </li>
@@ -88,15 +88,20 @@
             <div class="collapse" id="editMenu">
               <ul class="nav nav-collapse">
                 <li style="margin-bottom: 10px;">
-                  <a href="{{ route('kategori.create') }}">
+                  <a href="{{ route('kategori.index') }}">
                     <span class="sub-item">Kategori</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="{{route('rak.index')}}">
                     <span class="sub-item">Rak</span>
                   </a>
                 </li>
+                <li>
+                    <a href="{{ route('denda.index') }}">
+                      <span class="sub-item">Denda</span>
+                    </a>
+                  </li>
               </ul>
             </div>
           </li>

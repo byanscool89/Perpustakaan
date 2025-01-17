@@ -45,7 +45,7 @@
                                         <h6><b>Rekap Pengembalian</b></h6>
                                         <p class="text-muted">Total</p>
                                     </div>
-                                    <h4 class="text-danger fw-bold">15</h4>
+                                    <h4 class="text-secondary fw-bold">{{ $jumlahPengembalian }}</h4>
                                 </div>
                             </div>
                         </div>

@@ -12,4 +12,13 @@ class Pengembalian extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $guarded = [];
+    public function denda()
+    {
+        return $this->belongsTo(Denda::class, 'id_denda', 'id_denda');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_petugas', 'id_petugas');
+    }
 }

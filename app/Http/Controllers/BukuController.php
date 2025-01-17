@@ -20,6 +20,22 @@ class BukuController extends Controller
 
         return view('buku.index', compact('buku'));
     }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        // Query pencarian
+        $buku = Buku::where('id_buku', 'like', "%$keyword%")
+            ->orWhere('judul', 'like', "%$keyword%")
+            ->orWhere('isbn', 'like', "%$keyword%")
+            ->orWhere('penulis', 'like', "%$keyword%")
+            ->orWhere('penerbit', 'like', "%$keyword%")
+            ->orWhere('tahun_terbit', 'like', "%$keyword%")
+            ->get();
+
+        // Kembalikan hasil ke view
+        return view('buku.index', compact('buku'));
+    }
 
     public function create()
 {

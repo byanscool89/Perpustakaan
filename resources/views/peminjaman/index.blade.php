@@ -8,6 +8,12 @@
             Tambah Peminjaman
         </a>
     </div>
+    <form action="{{ route('peminjaman.index') }}" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" name="keyword" class="form-control" placeholder="Cari peminjaman..." value="{{ request('keyword') }}">
+            <button class="btn btn-primary" type="submit">Cari</button>
+        </div>
+    </form>
 
     @if (session('success'))
         <div class="alert alert-success">
@@ -28,12 +34,12 @@
         </thead>
         <tbody>
             @foreach ($peminjaman as $item)
-            <tr>
+             <tr>
                 <td>{{ $item->id_peminjaman }}</td>
                 <td>{{ $item->tgl_pinjam }}</td>
                 <td>{{ $item->tgl_kembali }}</td>
                 <td>{{ $item->nama_anggota }}</td>
-                <td>{{ $item->judul_buku }}</td>
+                <td>{{ $item->judul }}</td>
 
 
                 <td>

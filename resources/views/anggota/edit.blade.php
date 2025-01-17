@@ -42,7 +42,7 @@
 <script>
 Swal.fire({
     icon: "error",
-    title: "Oops...",
+    title: "Terjadi Kesalahan....",
     text: "{{ Session::get('error') }}",
 });
 </script>

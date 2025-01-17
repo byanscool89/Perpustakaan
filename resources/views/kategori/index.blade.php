@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Daftar Kategori</h1>
         <a href="{{ route('kategori.create') }}" class="btn btn-secondary">
-            Kembali
+            Tambah Kategori
         </a>
     </div>
 

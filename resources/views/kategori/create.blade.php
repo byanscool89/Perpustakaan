@@ -9,10 +9,9 @@
     <h1 class="mb-3">Tambah Kategori Baru</h1>
     <form action="{{ route('kategori.store') }}" method="POST">
         @csrf
-
         <div class="mb-3">
             <label for="judul" class="form-label">Nama Kategori</label>
-            <input type="text" class="form-control" id="kategori" name="kategori" required>
+            <input type="text" class="form-control" id="kategori" name="nama_kategori" required>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
