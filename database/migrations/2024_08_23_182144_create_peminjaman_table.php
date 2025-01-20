@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('id_petugas');
             $table->date('tgl_pinjam')->nullable();
             $table->date('tgl_kembali')->nullable();
+            $table->enum('status', ['dipinjam', 'dikembalikan'])->nullable();
             $table->timestamps();
 
             // $table->foreign('id_buku')->references('id_buku')->on('tb_buku');

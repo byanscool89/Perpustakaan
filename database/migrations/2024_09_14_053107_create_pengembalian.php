@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('id_denda');
             $table->string('id_petugas');
             $table->date('tgl_dikembalikan')->nullable();
-            $table->double('biaya_denda');
+            $table->double('biaya_denda')->nullable();
+            $table->string('id_buku');
             $table->timestamps();
         });
     }

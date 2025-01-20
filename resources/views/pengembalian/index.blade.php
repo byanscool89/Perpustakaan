@@ -24,7 +24,6 @@
                 <th>Nama Petugas</th>
                 <th>Tanggal Dikembalikan</th>
                 <th>Biaya Denda</th>
-           
             </tr>
         </thead>
         <tbody>
@@ -35,7 +34,7 @@
                     <td>{{ $data->denda->kategori_denda ?? '-' }}</td>
                     <td>{{ $data->user->name }}</td>
                     <td>{{ $data->tgl_dikembalikan ?? '-' }}</td>
-                    <td>{{ $data->denda->biaya }}</td>
+                    <td>{{ $data->biaya_denda }}</td>
                     <td>
                         {{-- <a href="{{ route('pengembalian.edit', $data->id_pengembalian) }}" class="btn btn-warning btn-sm">Edit</a> --}}
                         {{-- <form action="{{ route('pengembalian.destroy', $data->id_pengembalian) }}" method="POST" style="display:inline-block;">

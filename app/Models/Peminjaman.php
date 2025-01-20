@@ -13,11 +13,15 @@ class Peminjaman extends Model
     protected $primaryKey = 'id_peminjaman';
     public $incrementing = false;
     protected $keyType = 'string';
-
-    // protected $fillable = [
-    //     'id_peminjaman',
-    //     'tgl_pinjam',
-    //     'tgl_kembali',
-    // ];
     protected $guarded = [];
+
+    public function anggota()
+    {
+        return $this->belongsTo(Anggota::class, 'id_anggota', 'id_anggota');
+    }
+
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
+    }
 }
