@@ -20,7 +20,7 @@ class AnggotaController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
-        
+
         // Query pencarian
         $anggota = Anggota::where('id_anggota', 'like', "%$keyword%")
             ->orWhere('nama_anggota', 'like', "%$keyword%")

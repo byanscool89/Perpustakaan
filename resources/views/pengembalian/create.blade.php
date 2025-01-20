@@ -17,9 +17,9 @@
             <div class="mb-3">
                 <label for="id_peminjaman" class="form-label">Peminjaman</label>
                 <select class="form-select" id="id_peminjaman" name="id_peminjaman" required>
-                    <option value="" selected disabled>Pilih ID Peminjaman</option>
                     @foreach ($peminjaman as $item)
-                        <option value="{{ $item->id_peminjaman }}">{{ $item->id_peminjaman }} - {{ $item->anggota->nama_anggota }} - {{ $item->buku->judul  }}
+                        <option value="{{ $item->id_peminjaman }}">{{ $item->id_peminjaman }} -
+                            {{ $item->anggota->nama_anggota }} - {{ $item->buku->judul }}
                         </option>
                     @endforeach
                 </select>
@@ -27,7 +27,6 @@
             <div class="mb-3">
                 <label for="id_denda" class="form-label">Denda</label>
                 <select class="form-select" id="id_denda" name="id_denda" required>
-                    <option value="" selected disabled>Pilih Denda</option>
                     @foreach ($denda as $item)
                         <option value="{{ $item->id_denda }}">{{ $item->kategori_denda }}</option>
                     @endforeach
@@ -49,5 +48,25 @@
         </div> --}}
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const choices = new Choices('#id_peminjaman', {
+                    searchEnabled: true,
+                    placeholder: true,
+                    placeholderValue: 'Pilih Peminjaman',
+                    allowHTML: true,
+                    removeItemButton: true
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+                const choices = new Choices('#id_denda', {
+                    searchEnabled: true,
+                    placeholder: true,
+                    placeholderValue: 'Pilih Denda',
+                    allowHTML: true,
+                    removeItemButton: true
+                });
+            });
+        </script>
     </div>
 @endsection

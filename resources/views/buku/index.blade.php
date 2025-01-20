@@ -44,7 +44,7 @@
              <td>{{ $item->nama_rak}}</td>
 
             <td>
-                <a href="{{ route('buku.edit', $item->id_buku) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ route('buku.edit', $item->id_buku) }}" class="btn btn-warning btn-sm text-white">Edit</a>
                 <form action="{{ route('buku.destroy', $item->id_buku) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this item?');">
                     @csrf
                     @method('DELETE')

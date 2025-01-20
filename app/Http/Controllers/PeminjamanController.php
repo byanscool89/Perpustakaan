@@ -109,7 +109,7 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
             ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
             ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
-            ->where('status', 'dipinjam') // Filter berdasarkan status kembali
+            ->where('tb_peminjaman.status', 'dipinjam')
             ->when($keyword, function ($query, $keyword) {
                 $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
                     ->orWhere('tb_buku.judul', 'like', "%$keyword%")

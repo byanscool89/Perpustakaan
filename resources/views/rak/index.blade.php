@@ -26,7 +26,7 @@
                 <td>{{ $item->nama_rak }}</td>
                 <td>{{ $item->lokasi_rak }}</td>
                 <td>
-                    <a href="{{ route('rak.edit', $item->id_rak) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ route('rak.edit', $item->id_rak) }}" class="btn btn-warning btn-sm text-white">Edit</a>
                     <form action="{{ route('rak.destroy', $item->id_rak) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')

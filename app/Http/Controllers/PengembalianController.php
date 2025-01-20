@@ -20,7 +20,7 @@ class PengembalianController extends Controller
 
     public function create()
     {
-        $peminjaman = Peminjaman::all();
+        $peminjaman = Peminjaman::all()->where('status', 'dipinjam');
         $denda = Denda::all();
         return view('pengembalian.create', compact('peminjaman', 'denda'));
     }
@@ -94,7 +94,7 @@ class PengembalianController extends Controller
         $pengembalian = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
             ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
             ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
-            ->where('status', 'dikembalikan') // Filter berdasarkan status kembali
+            ->where('tb_peminjaman.status', 'dikembalikan')
             ->when($keyword, function ($query, $keyword) {
                 $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
                     ->orWhere('tb_buku.judul', 'like', "%$keyword%")

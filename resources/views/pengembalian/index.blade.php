@@ -34,15 +34,15 @@
                     <td>{{ $data->denda->kategori_denda ?? '-' }}</td>
                     <td>{{ $data->user->name }}</td>
                     <td>{{ $data->tgl_dikembalikan ?? '-' }}</td>
-                    <td>{{ $data->biaya_denda }}</td>
-                    <td>
+                    <td>Rp. {{ $data->biaya_denda }}</td>
+                    {{-- <td> --}}
                         {{-- <a href="{{ route('pengembalian.edit', $data->id_pengembalian) }}" class="btn btn-warning btn-sm">Edit</a> --}}
                         {{-- <form action="{{ route('pengembalian.destroy', $data->id_pengembalian) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                         </form> --}}
-                    </td>
+                    {{-- </td> --}}
                 </tr>
             @endforeach
         </tbody>
