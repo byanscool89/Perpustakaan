@@ -49,6 +49,7 @@ Route::delete('/anggota/{id}', [AnggotaController::class, 'destroy'])->name('ang
 Route::get('/anggota/search', [AnggotaController::class, 'search'])->name('anggota.search');
 //-----------------------------------------
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
+Route::get('/lap_peminjaman', [PeminjamanController::class, 'lapPeminjaman'])->name('lappeminjaman.index');
 Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
 Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
 Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
@@ -58,6 +59,7 @@ Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('pem
 Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
 // -----------------------------------------
 Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+Route::get('/lap_pengembalian', [PengembalianController::class, 'lapPengembalian'])->name('lappengembalian.index');
 Route::get('/pengembalian/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
 Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');
 // Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
@@ -72,6 +74,7 @@ Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('ka
 Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
 Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 Route::get('/kategori/{id}', [KategoriController::class, 'show'])->name('kategori.show');
+
 //-----------------------------------------
 Route::get('/denda', [DendaController::class, 'index'])->name('denda.index');
 Route::get('/denda/create', [DendaController::class, 'create'])->name('denda.create');

@@ -55,12 +55,13 @@ class KategoriController extends Controller
     // Update the specified category in the database
     public function update(Request $request, $id)
 {
+    // dd($request->all());
     $request->validate([
         'nama_kategori' => 'required|string|max:255',
     ]);
 
     // Jika id menggunakan format KTG, pastikan disesuaikan
-    $id = 'KTG' . str_pad((int)$id, 3, '0', STR_PAD_LEFT);
+    // $id = 'KTG' . str_pad((int)$id, 3, '0', STR_PAD_LEFT);
 
     $kategori = Kategori::where('id_kategori', $id)->firstOrFail();
     $kategori->update([
@@ -78,4 +79,17 @@ class KategoriController extends Controller
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus');
     }
+
+    // public function search (Request   $request) {
+    //     $keyword = $request->input('keyword');
+
+    //     // Query pencarian
+    //     $kategori = Kategori::where('id_kategori', 'like', "%$keyword%")
+    //         ->orWhere('nama_kategori', 'like', "%$keyword%")
+    //         ->get();
+
+    //     // Kembalikan hasil ke view
+    //     return view('kategori.index', compact('kategori'));
+
+    // }
 }

@@ -57,4 +57,20 @@ class PengembalianController extends Controller
         return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil disimpan');
     }
 
+    public function lapPengembalian(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $pengembalian = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
+        ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
+        ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
+        ->where('status', 'dikembalikan') // Filter berdasarkan status kembali
+        ->when($keyword, function ($query, $keyword) {
+            $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
+                  ->orWhere('tb_buku.judul', 'like', "%$keyword%")
+                  ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
+        })
+        ->get();
+        return view('laporan_pengembalian.index', compact('pengembalian'));
+    }
+
 }

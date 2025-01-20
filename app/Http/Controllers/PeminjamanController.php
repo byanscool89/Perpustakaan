@@ -14,8 +14,8 @@ class PeminjamanController extends Controller
     public function index(Request $request)
     {
         // Ambil keyword dari input pencarian
-        $keyword = $request->input('keyword'); 
-    
+        $keyword = $request->input('keyword');
+
         // Query peminjaman dengan join ke tb_anggota dan tb_buku
         $peminjaman = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
             ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
@@ -27,11 +27,12 @@ class PeminjamanController extends Controller
                       ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
             })
             ->get();
-    
+
         // Return data ke view
         return view('peminjaman.index', compact('peminjaman'));
     }
     
+
 
     public function create()
     {
@@ -65,7 +66,7 @@ class PeminjamanController extends Controller
         ]);
 
         Buku::where('id_buku',$request->id_buku)->decrement('stok',1);
-        
+
 
         return redirect()->route('peminjaman.index')->with('success', 'Data peminjaman berhasil disimpan');
     }
@@ -101,5 +102,21 @@ class PeminjamanController extends Controller
         $peminjaman->delete();
 
         return redirect()->route('peminjaman.index')->with('success', 'Data peminjaman berhasil dihapus');
+    }
+
+    public function lapPeminjaman(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $peminjaman = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
+            ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
+            ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
+            ->where('status', 'dipinjam') // Filter berdasarkan status kembali
+            ->when($keyword, function ($query, $keyword) {
+                $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
+                      ->orWhere('tb_buku.judul', 'like', "%$keyword%")
+                      ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
+            })
+            ->get();
+        return view('laporan_peminjaman.index', compact('peminjaman'));
     }
 }

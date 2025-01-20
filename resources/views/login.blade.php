@@ -23,7 +23,8 @@
         }
 
         .card-header {
-            background-color: #00796b;
+            /* background-color: #00796b; */
+            /* background-color: #1A1A2E; */
             color: white;
             /* border-top-left-radius: 15px;
             border-top-right-radius: 15px; */
@@ -31,13 +32,17 @@
         }
 
         .btn-primary {
-            background-color: #00796b;
-            border-color: #00796b;
+            /* background-color: #00796b; */
+            background-color: #1A1A2E;
+            /* border-color: #00796b; */
+            border-color: #1A1A2E;
         }
 
         .btn-primary:hover {
-            background-color: #004d40;
-            border-color: #004d40;
+            /* background-color: #004d40; */
+            background-color: #2c2c34;
+            border-color: #2c2c34;
+
         }
 
         a {
@@ -45,27 +50,27 @@
         }
 
         a:hover {
-            color: #004d40;
+            /* color: #004d40; */
+            opacity: 60%;
         }
     </style>
 </head>
 
-<body class="bg-secondary   "
-    style="background-image: url('{{ asset('bg-login.jpeg') }}'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed; 
-            height: 100vh; 
+<body
+    style="background-image: url('{{ asset('bg-login.jpeg') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
             overflow-x: hidden;">
     <div class="row justify-content-center h-100 align-items-center">
         <div class="col-lg-4 ">
-            <div class="d-flex justify-content-center ">
-                <img src="{{ asset('logos.png') }}" alt="" class="w-25">
-            </div>
             <div class="card mt-2 ">
-                <div class="card-header">
-                    <h1 class="card-title">Login</h1>
-                    <h5>Selamat Datang </h5>
+                <div class="card-header" data-background-color="dark">
+                <div class="d-flex justify-content-center ">
+                    <img src="{{ asset('logo.png') }}" alt="" class="w-25">
+                </div>
+                    <h1 class="card-title text-black">LOGIN</h1>
                 </div>
                 <div class="card-body">
                     @if (Session::has('error'))

@@ -9,7 +9,7 @@
         @method('PUT')
         <div class="mb-3">
             <label for="judul" class="form-label">Nama Kategori</label>
-            <input type="text" class="form-control" id="kategori" name="kategori" value="{{ $kategori->nama_kategori }}" required>
+            <input type="text" class="form-control" id="kategori" name="nama_kategori" value="{{ $kategori->nama_kategori }}" required>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
     </form>

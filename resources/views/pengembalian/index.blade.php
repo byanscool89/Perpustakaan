@@ -24,7 +24,7 @@
                 <th>Nama Petugas</th>
                 <th>Tanggal Dikembalikan</th>
                 <th>Biaya Denda</th>
-                <th>Aksi</th>
+           
             </tr>
         </thead>
         <tbody>

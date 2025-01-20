@@ -3,19 +3,13 @@
 @section('content')
 <div class="card-body">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Daftar Peminjaman</h1>
-        <a href="{{ route('peminjaman.create') }}" class="btn btn-secondary">
-            Tambah Peminjaman
+        <h1>Daftar Pengembalian</h1>
+        <a href="{{ route('pengembalian.create') }}" class="btn btn-secondary">
+            Tambah Pengembalian
         </a>
     </div>
-    <form action="{{ route('peminjaman.index') }}" method="GET">
-        <div class="input-group mb-3">
-            <input type="text" name="keyword" class="form-control" placeholder="Cari peminjaman..." value="{{ request('keyword') }}">
-            <button class="btn btn-primary" type="submit">Cari</button>
-        </div>
-    </form>
 
-    @if (session('success'))
+    @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
@@ -33,7 +27,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($peminjaman as $item)
+            @foreach ($pengembalian as $item)
              <tr>
                 <td>{{ $item->id_peminjaman }}</td>
                 <td>{{ $item->tgl_pinjam }}</td>

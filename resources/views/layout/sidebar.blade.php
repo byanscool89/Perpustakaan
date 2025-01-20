@@ -67,12 +67,12 @@
             <div class="collapse" id="laporanMenu">
               <ul class="nav nav-collapse">
                 <li style="margin-bottom: 10px;">
-                  <a href="#">
+                  <a href="lap_peminjaman">
                     <span class="sub-item">Peminjaman</span>
                   </a>
                 </li>
                 <li>
-                  <a href="#">
+                  <a href="lap_pengembalian">
                     <span class="sub-item">Pengembalian</span>
                   </a>
                 </li>

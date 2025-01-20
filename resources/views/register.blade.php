@@ -12,39 +12,50 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         .card {
-            border-radius: 15px;
+            /* border-radius: 15px; */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 50px;
+            /* margin-top: 50px; */
         }
         .card-header {
-            background-color: #00796b;
+            /* background-color: #00796b; */
             color: white;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            /* border-top-left-radius: 15px;
+            border-top-right-radius: 15px; */
             text-align: center;
         }
         .btn-primary {
-            background-color: #00796b;
-            border-color: #00796b;
+             /* background-color: #00796b; */
+             background-color: #1A1A2E;
+            /* border-color: #00796b; */
+            border-color: #1A1A2E;
         }
         .btn-primary:hover {
-            background-color: #004d40;
-            border-color: #004d40;
+            background-color: #2c2c34;
+            border-color: #2c2c34;
         }
         a {
             color: #00796b;
         }
         a:hover {
-            color: #004d40;
+            opacity: 60%;
         }
     </style>
 </head>
-<body>
-    <div class="row justify-content-center">
+<body
+    style="background-image: url('{{ asset('bg-login.jpeg') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            overflow-x: hidden;">
+    <div class="row justify-content-center h-100 align-items-center">
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="card-title">Register</h1>
+                    <div class="d-flex justify-content-center ">
+                        <img src="{{ asset('logo.png') }}" alt="" class="w-25">
+                    </div>
+                    <h1 class="card-title text-black">Register</h1>
                 </div>
                 <div class="card-body">
                     @if (Session::has('success'))
