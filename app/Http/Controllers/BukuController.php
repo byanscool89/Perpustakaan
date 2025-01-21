@@ -20,7 +20,16 @@ class BukuController extends Controller
 
         return view('buku.index', compact('buku'));
     }
-    public function search(Request $request)
+    public function lihatbuku()
+    {
+        $bukus = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
+            ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
+            ->select('tb_buku.*', 'tb_rak.nama_rak', 'tb_kategori.nama_kategori')
+            ->get();
+    
+        return view('lihatbuku', compact('bukus')); // Sesuaikan nama variabel dengan view
+    }
+        public function search(Request $request)
     {
         $keyword = $request->input('keyword');
 
@@ -36,6 +45,7 @@ class BukuController extends Controller
         // Kembalikan hasil ke view
         return view('buku.index', compact('buku'));
     }
+    
 
     public function create()
 {

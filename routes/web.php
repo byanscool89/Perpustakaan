@@ -28,6 +28,8 @@ Route::group(
         Route::post('/register', [AuthController::class, 'registerpost'])->name('registerpost');
         Route::get('/login', [AuthController::class, 'login'])->name('login');
         Route::post('/login', [AuthController::class, 'loginpost'])->name('loginpost');
+        Route::get('/bukus/lihatbuku', [BukuController::class, 'lihatbuku'])->name('bukus.lihatbuku');
+
     }
 );
 //-----------------------------------------
@@ -46,6 +48,7 @@ Route::group(
         Route::put('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
         Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+        
         //----------------------------------------
         Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota.index');
         Route::get('/anggota/create', [AnggotaController::class, 'create'])->name('anggota.create');

@@ -18,8 +18,8 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID Pengembalian</th>
-                <th>ID Peminjaman</th>
+                <th>Kode Pengembalian</th>
+                <th>Kode Peminjaman</th>
                 <th>Kategori Denda</th>
                 <th>Nama Petugas</th>
                 <th>Tanggal Dikembalikan</th>

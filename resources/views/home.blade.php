@@ -16,10 +16,11 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6><b>Rekap </b></h6>
-                                        <p class="text-muted">Total Buku Hilang dan Rusak</p>
+                                        <h6><b>Rekap Buku</b></h6>
+                                        <p class="text-muted">Total</p>
+                                        
                                     </div>
-                                    <h4 class="text-info fw-bold">7</h4>
+                                    <h4 class="text-success fw-bold">{{  $jumlahBuku   }}</h4>
                                 </div>
                             </div>
                         </div>

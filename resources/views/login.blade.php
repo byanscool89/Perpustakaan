@@ -17,40 +17,24 @@
         }
 
         .card {
-            /* border-radius: 15px; */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            /* margin-top: 50px; */
-        }
-
-        .card-header {
-            /* background-color: #00796b; */
-            /* background-color: #1A1A2E; */
-            color: white;
-            /* border-top-left-radius: 15px;
-            border-top-right-radius: 15px; */
-            text-align: center;
         }
 
         .btn-primary {
-            /* background-color: #00796b; */
             background-color: #1A1A2E;
-            /* border-color: #00796b; */
             border-color: #1A1A2E;
         }
 
         .btn-primary:hover {
-            /* background-color: #004d40; */
             background-color: #2c2c34;
             border-color: #2c2c34;
-
         }
 
         a {
-            color: #00796b;
+            color: #1A1A2E;
         }
 
         a:hover {
-            /* color: #004d40; */
             opacity: 60%;
         }
     </style>
@@ -63,14 +47,37 @@
             background-attachment: fixed;
             height: 100vh;
             overflow-x: hidden;">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">SMP Negeri 3 Karanglewas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                   
+                 
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('bukus.lihatbuku')}}">Lihat Buku</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
     <div class="row justify-content-center h-100 align-items-center">
-        <div class="col-lg-4 ">
-            <div class="card mt-2 ">
+        <div class="col-lg-4">
+            <div class="card mt-2">
                 <div class="card-header" data-background-color="dark">
-                <div class="d-flex justify-content-center ">
-                    <img src="{{ asset('logo.png') }}" alt="" class="w-25">
-                </div>
-                    <h1 class="card-title text-black">LOGIN</h1>
+                    <div class="d-flex justify-content-center" >
+                        
+                        <img src="{{ asset('logo.png') }}" alt="" class="w-25">
+                    </div>
+                    <h1 class="card-title text-black text-center">LOGIN</h1>
                 </div>
                 <div class="card-body">
                     @if (Session::has('error'))
@@ -95,14 +102,12 @@
                                 <button type="submit" class="btn btn-primary">Login</button>
                             </div>
                         </div>
-                        <div class="text-center mt-3">
-                            <p>Belum punya akun? <a href="{{ route('register') }}">Daftar di sini</a></p>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @if (Session::has('error'))
         <script>
@@ -123,3 +128,5 @@
         </script>
     @endif
 </body>
+
+</html>

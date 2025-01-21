@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\Peminjaman;
+use App\Models\Buku;
 use App\Models\Pengembalian;
 use Illuminate\Http\Request;
 
@@ -13,9 +14,10 @@ class HomeController extends Controller
     {
         $jumlahAnggota = Anggota::count();
         $jumlahPeminjaman = Peminjaman::count();
-        $jumlahPengembalian = Pengembalian::count(); // Variabel ini dihitung tetapi tidak dipakai di compact()
+        $jumlahPengembalian = Pengembalian::count();
+        $jumlahBuku = Buku::count();
     
-        return view('home', compact('jumlahAnggota', 'jumlahPeminjaman', 'jumlahPengembalian'));
+        return view('home', compact('jumlahAnggota', 'jumlahPeminjaman', 'jumlahPengembalian','jumlahBuku'));
     }
     
 }

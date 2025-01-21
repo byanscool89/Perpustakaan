@@ -1,24 +1,13 @@
 @extends('layout.main')
 
 @section('content')
-<div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Daftar Pengembalian</h1>
-        <a href="{{ route('pengembalian.create') }}" class="btn btn-secondary">
-            Tambah Pengembalian
-        </a>
-    </div>
+        <h1>Laporan Pengembalian</h1>
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID Peminjaman</th>
+                <th>Kode Peminjaman</th>
                 <th>Tanggal Pinjam</th>
                 <th>Tanggal Kembali</th>
                 <th>Nama Anggota</th>

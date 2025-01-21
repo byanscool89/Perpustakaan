@@ -16,7 +16,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID Denda</th>
+                    <th>Kode Denda</th>
                     <th>Kategori Denda</th>
                     <th>Biaya</th>
                     <th>Aksi</th>

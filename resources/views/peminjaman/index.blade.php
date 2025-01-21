@@ -25,7 +25,7 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>ID Peminjaman</th>
+                    <th>Kode Peminjaman</th>
                     <th>Tanggal Pinjam</th>
                     <th>Tanggal Kembali</th>
                     <th>Nama Anggota</th>
