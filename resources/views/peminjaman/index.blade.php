@@ -43,7 +43,7 @@
                         <td>{{ $item->nama_anggota }}</td>
                         <td>{{ $item->judul }}</td>
                         <td>
-                            <img src="{{ asset('qrcodes/' . $item->id_peminjaman . '.png') }}" width="100"
+                            <img src="{{ asset('qrcodes/' . $item->id_peminjaman . '.svg') }}" width="100"
                                 alt="QR Code">
                         </td>
                         <td>

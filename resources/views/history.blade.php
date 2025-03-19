@@ -169,6 +169,9 @@
             </td>
 
             <td>{{ $item->status }}</td>
+        <td>                            <img src="{{ asset('qrcodes/' . $item->id_peminjaman . '.svg') }}" width="100"
+        alt="QR Code">
+</td>
                     </tr>
                     @endforeach
                 </tbody>

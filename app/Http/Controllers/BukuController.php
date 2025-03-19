@@ -96,7 +96,7 @@ class BukuController extends Controller
             'id_rak' => $request->id_rak,
         ]);
 
-        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan melalui scan QR.');
+        return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
     // Display the specified book

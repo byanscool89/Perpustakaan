@@ -15,13 +15,15 @@
             <div class="mb-3">
                 <label for="id_peminjaman" class="form-label">Peminjaman</label>
                 <select class="form-select" id="id_peminjaman" name="id_peminjaman" required>
+                    <option value="" disabled selected>Masukkan kode peminjaman</option>
                     @foreach ($peminjaman as $item)
-                        <option value="{{ $item->id_peminjaman }}">{{ $item->id_peminjaman }} -
-                            {{ $item->anggota->nama_anggota }} - {{ $item->buku->judul }}
+                        <option value="{{ $item->id_peminjaman }}">
+                            {{ $item->id_peminjaman }} - {{ $item->anggota->nama_anggota }} - {{ $item->buku->judul }}
                         </option>
                     @endforeach
                 </select>
             </div>
+            
 
             <div class="mb-3">
                 <label for="id_denda" class="form-label">Denda</label>
