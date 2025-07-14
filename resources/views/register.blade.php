@@ -22,8 +22,7 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      background-image: url('{{ asset('1722.jpg') }}');
+      background-image: url('{{ asset('bg-login.jpeg') }}');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -34,9 +33,9 @@
     main {
       flex: 1;
       display: flex;
-      justify-content: center;
+      justify-content: flex-start; /* posisikan ke kiri */
       align-items: center;
-      padding: 20px;
+      padding: 40px;
     }
 
     .auth-form {
@@ -134,10 +133,20 @@
 </head>
 <body>
 
+  {{-- Navbar --}}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <img src="{{ asset('logo.png') }}" alt="Logo" style="width: 50px; height: auto; margin-right:10px;">
+      <span class="navbar-brand mb-0 h1">SMP Negeri 3 Karanglewas</span>
+    </div>
+  </nav>
+
   <main>
     <form class="auth-form" action="{{ route('register') }}" method="POST">
       @csrf
       <h2>Create Account</h2>
+      <p>Join us and start your journey</p>
+
       @if (Session::has('success'))
         <div class="alert alert-success">{{ Session::get('success') }}</div>
       @endif
@@ -168,6 +177,7 @@
     </form>
   </main>
 
+  {{-- SweetAlert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @if (Session::has('error'))
     <script>
@@ -188,9 +198,11 @@
     </script>
   @endif
 
+  {{-- Footer --}}
   <footer>
-    <div class="container text-end">
-      <span class="text-muted">&copy; 2024, made by 
+    <div class="container d-flex justify-content-end">
+      <span class="text-muted">
+        &copy; 2024, made by 
         <a href="https://instagram.com/smpn3karanglewas" target="_blank">SMP Negeri 3 Karanglewas</a>
       </span>
     </div>
