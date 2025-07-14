@@ -35,5 +35,18 @@ Sistem Informasi Perpustakaan ini dibangun menggunakan **PHP** dengan **framewor
 | Bootstrap 5    | Frontend UI Framework           |
 | SweetAlert2    | Notifikasi interaktif           |
 
-## 📂 Struktur Folder Utama
+
+## ⚙️ Cara Menjalankan
+
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/byanscool89/Perpustakaan.git
+   cd Perpustakaan
+composer install
+npm install && npm run dev
+
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
 
