@@ -3,40 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cetak Data Peminjaman</title>
+    <title>Laporan Peminjaman Buku</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 40px;
+            text-align: center;
         }
         .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
             text-align: center;
+            border-bottom: 3px solid black;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
         .header img {
             width: 80px;
             height: auto;
+            position: absolute;
+            left: 50px;
+            top: 10px;
         }
-        .header h2 {
-            margin: 0;
-            flex-grow: 1;
-            text-align: center;
-        }
-        .date-container {
-            font-weight: bold;
+        .header h1, .header h2, .header p {
+            margin: 5px 0;
         }
         .table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .table th, .table td {
             border: 1px solid black;
-            padding: 10px;
+            padding: 8px;
             text-align: left;
         }
         .table th {
@@ -58,51 +55,23 @@
             background-color: #218838;
         }
         @media print {
-            .btn-print, .filter-container {
-                display: none;
-            }
-        }
-        .filter-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .filter-container label {
-            font-weight: bold;
-        }
-        .filter-container input {
-            padding: 8px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-        }
-        .filter-container button {
-            padding: 8px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .filter-container button:hover {
-            background-color: #0056b3;
+            .btn-print { display: none; }
         }
     </style>
 </head>
 <body>
-    
-
     <div class="header">
         <img src="{{ asset('logo.png') }}" alt="Logo Instansi">
-        <h2>Laporan Peminjaman Buku</h2>
-        <div class="date-container">{{ date('d F Y') }}</div>
+        <h2>PEMERINTAH KABUPATEN BANYUMAS</h2>
+        <h3>LAPORAN PENGEMBALIAN</h3>
+        <h1>SMP NEGERI 3 KARANGLEWAS</h1>
+        <p>NPSN 20348594</p>
+        <p>Jalan Raya Kejubug, RT.1/RW.5, Dusun III, Sunyalangu, Kec. Karanglewas, Kabupaten Banyumas, Jawa Tengah 53161</p>
+        <p><strong>{{ date('d F Y') }}</strong></p>
     </div>
 
+    <h2>Laporan Peminjaman Buku</h2>
+    
     <table class="table">
         <thead>
             <tr>
@@ -125,7 +94,7 @@
             @endforeach
         </tbody>
     </table>
-
+    
     <button class="btn-print" onclick="window.print()">Print</button>
 </body>
 </html>

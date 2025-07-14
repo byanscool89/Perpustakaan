@@ -46,7 +46,6 @@ Route::group(
         Route::put('/buku/{id}', [BukuController::class, 'update'])->name('buku.update');
         Route::delete('/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
-
         // Route::post('/buku/scan', [BukuController::class, 'store'])->name('buku.scan');
         //----------------------------------------
         Route::get('/anggota', [AnggotaController::class, 'index'])->name('anggota.index');
@@ -59,6 +58,7 @@ Route::group(
         //-----------------------------------------
         Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
         Route::get('/lap_peminjaman', [PeminjamanController::class, 'lapPeminjaman'])->name('lappeminjaman.index');
+        Route::get('/lap_peminjaman/filter',[PeminjamanController::class,'filter'])->name('filter.peminjaman');
         Route::get('/peminjaman/create', [PeminjamanController::class, 'create'])->name('peminjaman.create');
         Route::post('/peminjaman', [PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/{id}/edit', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
@@ -66,12 +66,11 @@ Route::group(
         Route::delete('/peminjaman/{id}', [PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
         Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.show');
         Route::get('/peminjaman', [PeminjamanController::class, 'index'])->name('peminjaman.index');
-        Route::get('/filter',[PeminjamanController::class,'filter']);
         Route::get('/lap_peminjaman/print', [PeminjamanController::class, 'print'])->name('peminjaman.print');
 
         // -----------------------------------------
         Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
-        Route::get('/filter',[PengembalianController::class,'filter']);
+        Route::get('/lap_pengembalian/filter',[PengembalianController::class,'filter'])->name('filter.pengembalian');
         Route::get('/lap_pengembalian', [PengembalianController::class, 'lapPengembalian'])->name('lappengembalian.index');
         Route::get('/pengembalian/create', [PengembalianController::class, 'create'])->name('pengembalian.create');
         Route::post('/pengembalian', [PengembalianController::class, 'store'])->name('pengembalian.store');

@@ -67,12 +67,12 @@
             <div class="collapse" id="laporanMenu">
               <ul class="nav nav-collapse">
                 <li style="margin-bottom: 10px;">
-                  <a href="lap_peminjaman">
+                  <a href="{{route('lappeminjaman.index')}}">
                     <span class="sub-item">Peminjaman</span>
                   </a>
                 </li>
                 <li>
-                  <a href="lap_pengembalian">
+                  <a href="{{route('lappengembalian.index')}}">
                     <span class="sub-item">Pengembalian</span>
                   </a>
                 </li>

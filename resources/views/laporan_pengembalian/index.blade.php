@@ -3,7 +3,7 @@
 @section('content')
     <h1>Laporan Pengembalian</h1>
 
-    <form method="GET" action="/filter">
+    <form method="GET" action="{{ route('filter.pengembalian') }}">
         <div class="row mb-3 justify-content-end">
             <div class="col-md-3">
                 <label for="start_date" class="form-label">Start Date:</label>
@@ -39,10 +39,10 @@
                 @forelse ($pengembalian as $item)
                     <tr>
                         <td>{{ $item->id_peminjaman }}</td>
-                        <td>{{ $item->tgl_pinjam }}</td>
-                        <td>{{ $item->tgl_kembali }}</td>
-                        <td>{{ $item->nama_anggota }}</td>
-                        <td>{{ $item->judul }}</td>
+                        <td>{{ $item->peminjaman->tgl_pinjam }}</td>
+                        <td>{{ $item->tgl_dikembalikan }}</td>
+                        <td>{{ $item->peminjaman->anggota->nama_anggota }}</td>
+                        <td>{{ $item->buku->judul }}</td>
                         <td>{{ $item->created_at }}</td>
                         <td>{{ $item->status }}</td>
                     </tr>

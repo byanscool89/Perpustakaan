@@ -80,7 +80,8 @@ class PeminjamanController extends Controller
 
         // Generate QR Code
         $qrCode = QrCode::format('svg')->size(200)->generate($peminjaman->id_peminjaman);
-        $path = public_path('qrcodes/' . $peminjaman->id_peminjaman . '.svg');
+        // $path = public_path('qrcodes/' . $peminjaman->id_peminjaman . '.svg');
+        $path = base_path('public_html/qrcodes/' . $peminjaman->id_peminjaman . '.svg');
         file_put_contents($path, $qrCode);
         // Simpan QR Code ke Public Folder
         file_put_contents($path, $qrCode);
@@ -97,7 +98,9 @@ class PeminjamanController extends Controller
     public function edit($id)
     {
         $peminjaman = Peminjaman::findOrFail($id);
-        return view('peminjaman.edit', compact('peminjaman'));
+        $anggota = Anggota::all();
+        $buku = Buku::all();
+        return view('peminjaman.edit', compact('peminjaman', 'anggota', 'buku'));
     }
 
     public function update(Request $request, $id)
@@ -123,17 +126,18 @@ class PeminjamanController extends Controller
 
     public function lapPeminjaman(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $peminjaman = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
-            ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
-            ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
-            ->where('tb_peminjaman.status', 'dipinjam')
-            ->when($keyword, function ($query, $keyword) {
-                $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
-                    ->orWhere('tb_buku.judul', 'like', "%$keyword%")
-                    ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
-            })
-            ->get();
+        // $keyword = $request->input('keyword');
+        // $peminjaman = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
+        //     ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
+        //     ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
+        //     ->where('tb_peminjaman.status', 'dipinjam')
+        //     ->when($keyword, function ($query, $keyword) {
+        //         $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
+        //             ->orWhere('tb_buku.judul', 'like', "%$keyword%")
+        //             ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
+        //     })
+        //     ->get();
+        $peminjaman = Peminjaman::with('buku','anggota')->get();
         return view('laporan_peminjaman.index', compact('peminjaman'));
     }
     public function filter(Request $request)
@@ -141,10 +145,22 @@ class PeminjamanController extends Controller
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
+        $query = Peminjaman::query();
+
         // Ambil data berdasarkan rentang tanggal yang dipilih
-        $peminjaman = Peminjaman::whereDate('created_at', '>=', $start_date)
-            ->whereDate('created_at', '<=', $end_date)
-            ->get();
+        // $peminjaman = Peminjaman::whereDate('created_at', '>=', $start_date)
+        //     ->whereDate('created_at', '<=', $end_date)
+        //     ->get();
+
+        // Cek apakah filter tanggal diisi
+        if (!empty($start_date) && !empty($end_date)) {
+            $query->whereBetween('tgl_pinjam', [$start_date, $end_date]);
+        }
+
+        // Ambil data pengembalian
+        // $pengembalian = $query->with(['anggota', 'buku'])->get();
+        $peminjaman = $query->get();
+        // return response()->json($peminjaman);
 
         // Kirim data ke tampilan
         return view('laporan_peminjaman.index', compact('peminjaman', 'start_date', 'end_date'));

@@ -4,7 +4,7 @@
     <h1>Laporan Peminjaman</h1>
 
     <!-- Form Filter -->
-    <form method="GET" action="/filter">
+    <form method="GET" action="{{route('filter.peminjaman')}}">
         <div class="row mb-3 justify-content-end">
             <div class="col-md-3">
                 <label for="start_date" class="form-label">Start Date:</label>
@@ -42,8 +42,8 @@
                         <td>{{ $item->id_peminjaman }}</td>
                         <td>{{ $item->tgl_pinjam }}</td>
                         <td>{{ $item->tgl_kembali }}</td>
-                        <td>{{ $item->nama_anggota }}</td>
-                        <td>{{ $item->judul }}</td>
+                        <td>{{ $item->anggota->nama_anggota }}</td>
+                        <td>{{ $item->buku->judul }}</td>
                         <td>{{ $item->status }}</td>
                     </tr>
                 @empty

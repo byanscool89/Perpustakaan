@@ -64,36 +64,41 @@
     <!-- Tambahkan Library QR Code -->
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const html5QrCode = new Html5Qrcode("qr-reader");
+       document.addEventListener("DOMContentLoaded", function () {
+    const html5QrCode = new Html5Qrcode("qr-reader");
 
-            function onScanSuccess(decodedText) {
-                document.getElementById("id_peminjaman").value = decodedText;
-                document.getElementById("qr-result").innerText = "QR Code: " + decodedText;
+    function onScanSuccess(decodedText) {
+        document.getElementById("id_peminjaman").value = decodedText;
+        document.getElementById("qr-result").innerText = "QR Code: " + decodedText;
 
-                // Hentikan scanning setelah berhasil
-                html5QrCode.stop().then(() => {
-                    var scanModal = new bootstrap.Modal(document.getElementById('scanModal'));
-                    scanModal.hide();
-                }).catch(err => console.log("Gagal menghentikan kamera", err));
-            }
+        // Hentikan scanning setelah berhasil
+        html5QrCode.stop().then(() => console.log("Kamera berhenti"))
+        .catch(err => console.log("Gagal menghentikan kamera", err));
+    }
 
-            let isScanning = false;
+    let isScanning = false;
 
-            document.getElementById("scanModal").addEventListener("shown.bs.modal", function () {
-                if (!isScanning) {
-                    isScanning = true;
-                    html5QrCode.start({ facingMode: "environment" }, { fps: 10, qrbox: 250 }, onScanSuccess)
-                    .catch(err => console.log("Gagal membuka kamera: " + err));
-                }
-            });
+    document.getElementById("scanModal").addEventListener("shown.bs.modal", function () {
+        if (!isScanning) {
+            isScanning = true;
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(() => {
+                    html5QrCode.start(
+                        { facingMode: "environment" },  // Pakai kamera belakang
+                        { fps: 10, qrbox: 250 },
+                        onScanSuccess
+                    ).catch(err => console.log("Gagal membuka kamera: " + err));
+                })
+                .catch(err => console.log("Izin kamera tidak diberikan: " + err));
+        }
+    });
 
-            document.getElementById("scanModal").addEventListener("hidden.bs.modal", function () {
-                if (isScanning) {
-                    html5QrCode.stop().then(() => isScanning = false)
-                    .catch(err => console.log("Gagal menghentikan kamera", err));
-                }
-            });
-        });
+    document.getElementById("scanModal").addEventListener("hidden.bs.modal", function () {
+        if (isScanning) {
+            html5QrCode.stop().then(() => isScanning = false)
+            .catch(err => console.log("Gagal menghentikan kamera", err));
+        }
+    });
+});
     </script>
 @endsection

@@ -21,6 +21,10 @@ class Pengembalian extends Model
     {
         return $this->belongsTo(User::class, 'id_petugas', 'id_petugas');
     }
+    public function buku()
+    {
+        return $this->belongsTo(Buku::class, 'id_buku', 'id_buku');
+    }
 
     public function peminjaman()
     {
@@ -31,4 +35,9 @@ class Pengembalian extends Model
     // {
     //     return $this->hasOne(Pengembalian::class, 'id_peminjaman','id_peminjaman');
     // }
+    public function anggota()
+{
+    return $this->hasOneThrough(Anggota::class, Peminjaman::class, 'id_peminjaman', 'id_anggota', 'id_peminjaman', 'id_anggota');
+}
+
 }

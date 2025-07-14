@@ -95,7 +95,15 @@
 
     <div class="header">
         <img src="{{ asset('logo.png') }}" alt="Logo Instansi">
-        <h2>Laporan Pengembalian Buku</h2>
+        <div class="header">
+            <img src="{{ asset('logo.png') }}" alt="Logo Instansi">
+            <h2>PEMERINTAH KABUPATEN BANYUMAS</h2>
+            <h3>LAPORAN PEMINJAMAN</h3>
+            <h1>SMP NEGERI 3 KARANGLEWAS</h1>
+            <p>NPSN 20348594</p>
+            <p>Jalan Raya Kejubug, RT.1/RW.5, Dusun III, Sunyalangu, Kec. Karanglewas, Kabupaten Banyumas, Jawa Tengah 53161</p>
+            <p><strong>{{ date('d F Y') }}</strong></p>
+        </div>
     </div>
 
     <table class="table">

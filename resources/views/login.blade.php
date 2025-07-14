@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SMP Negeri 3 Karanglewas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <style>
-        body {
-            background-color: #f0f4f8;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - SMP Negeri 3 Karanglewas</title>
+  <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .btn-primary {
-            background-color: #1A1A2E;
-            border-color: #1A1A2E;
-        }
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
 
-        .btn-primary:hover {
-            background-color: #223d52;
-            border-radius: 5px;
-        }
+    .auth-form {
+      background: white;
+      padding: 30px 25px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease-in-out;
+      width: 100%;
+      max-width: 400px;
+    }
 
-        .flip-logo {
-            animation: flip 4s infinite alternate;
-            transform-origin: center;
-        }
+    .auth-form h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-        @keyframes flip {
-            0% {
-                transform: rotateY(180deg);
-            }
+    .auth-form p {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+    }
 
-            100% {
-                transform: rotateY(0deg);
-            }
-        }
-    </style>
+    .auth-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    .auth-form input:focus {
+      border-color: #667eea;
+      outline: none;
+    }
+
+    .auth-form button {
+      width: 100%;
+      background-color: #667eea;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .auth-form button:hover {
+      background-color: #5a67d8;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      background-color: #ffffff;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 14px;
+      color: #888;
+      border-top: 1px solid #ddd;
+    }
+  </style>
 </head>
+<body style="background-image: url('{{ asset('1722.jpg') }}'); background-size: cover; background-position: center; background-attachment: fixed;">
 
-<body style="background-image: url('{{ asset('bg-login.jpeg') }}'); background-size: cover; background-position: center; height: 100vh; overflow-x: hidden;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  {{-- Navbar --}}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <img src="{{ asset('logo.png') }}" alt="Logo Instansi" style="width: 50px; height: auto; margin-right:10px">
 
@@ -63,45 +137,52 @@
         </div>
     </nav>
 
-    <div class="row justify-content-center h-100 align-items-center">
-        <div class="col-lg-4">
-            <div class="card mt-2">
-                <div class="card-header text-center">
-                    <img src="{{ asset('logo.png') }}" alt="Logo" class="w-25 flip-logo">
-                    <h1 class="card-title text-black text-center">LOGIN</h1>
-                </div>
-                <div class="card-body">
-                    @if (Session::has('error'))
-                        <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                    @endif
-                    <form action="{{ route('login') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="xxx@gmail.com" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" class="form-control" placeholder="Your Password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+
+  {{-- Login Form --}}
+  <div class="container">
+    <form class="auth-form" action="{{ route('login') }}" method="POST">
+      @csrf
+      <h2>Welcome Back</h2>
+      <p>Please login to your account</p>
+
+      @if (Session::has('error'))
+        <div class="alert alert-danger">{{ Session::get('error') }}</div>
+      @endif
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="you@example.com" required />
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="........." required />
+
+      <button type="submit">Login</button>
+
+      <div class="footer mt-3">
+        <p>Don't have an account? <a href="{{ route('register') }}">Register</a></p>
+      </div>
+    </form>
+  </div>
+
+  {{-- SweetAlert2 --}}
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  @if (Session::has('error'))
+    <script>
+      Swal.fire({ icon: "error", title: "Oops...", text: "{{ Session::get('error') }}" });
+    </script>
+  @endif
+  @if (Session::has('success'))
+    <script>
+      Swal.fire({ icon: "success", title: "Berhasil", text: "{{ Session::get('success') }}" });
+    </script>
+  @endif
+
+  {{-- Footer --}}
+  <footer>
+<div class="container d-flex justify-content-end">
+          <span class="text-muted">&copy; 2024, made by 
+        <a href="https://instagram.com/smpn3karanglewas" target="_blank">SMP Negeri 3 Karanglewas</a>
+      </span>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (Session::has('error'))
-        <script>
-            Swal.fire({ icon: "error", title: "Oops...", text: "{{ Session::get('error') }}" });
-        </script>
-    @endif
-    @if (Session::has('success'))
-        <script>
-            Swal.fire({ icon: "success", title: "Berhasil", text: "{{ Session::get('success') }}" });
-        </script>
-    @endif
+  </footer>
 </body>
-
 </html>

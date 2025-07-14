@@ -6,13 +6,12 @@ use App\Models\Buku;
 use App\Models\Kategori;
 use App\Models\Peminjaman;
 use App\Models\Pengembalian;
-
 use App\Models\Rak;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    // Display a listing of the books
+    // Menampilkan semua data buku ke halaman admin
     public function index()
     {
         $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
@@ -22,6 +21,8 @@ class BukuController extends Controller
 
         return view('buku.index', compact('buku'));
     }
+
+    // Menampilkan semua buku ke halaman pengunjung
     public function lihatbuku()
     {
         $bukus = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
@@ -29,13 +30,14 @@ class BukuController extends Controller
             ->select('tb_buku.*', 'tb_rak.nama_rak', 'tb_kategori.nama_kategori')
             ->get();
 
-        return view('lihatbuku', compact('bukus')); // Sesuaikan nama variabel dengan view
+        return view('lihatbuku', compact('bukus')); // variabel $bukus dipakai di view
     }
+
+    // Mencari buku berdasarkan kata kunci
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
 
-        // Query pencarian
         $buku = Buku::where('id_buku', 'like', "%$keyword%")
             ->orWhere('judul', 'like', "%$keyword%")
             ->orWhere('isbn', 'like', "%$keyword%")
@@ -44,22 +46,19 @@ class BukuController extends Controller
             ->orWhere('tahun_terbit', 'like', "%$keyword%")
             ->get();
 
-        // Kembalikan hasil ke view
         return view('buku.index', compact('buku'));
     }
 
-
+    // Menampilkan form tambah buku
     public function create()
     {
-        $optionKategori = Kategori::all();
-        $optionRak = Rak::all();
+        $optionKategori = Kategori::all(); // Ambil semua kategori
+        $optionRak = Rak::all(); // Ambil semua rak
 
-        // Pass both variables to the view
         return view('buku.create', compact('optionKategori', 'optionRak'));
     }
 
-
-    // Store a newly created book in storage
+    // Menyimpan data buku baru
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -73,17 +72,18 @@ class BukuController extends Controller
             'id_rak' => 'required',
         ]);
 
-        // Cek apakah buku dengan ISBN ini sudah ada
+        // Cek apakah ISBN sudah ada
         $existingBuku = Buku::where('isbn', $validated['isbn'])->first();
 
         if ($existingBuku) {
             return redirect()->route('buku.index')->with('warning', 'Buku sudah ada dalam database.');
         }
 
-        // Generate ID Buku otomatis
+        // Generate ID buku otomatis (format: BK001, BK002, dst)
         $last = Buku::count();
         $newBook = 'BK' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
 
+        // Simpan data ke database
         Buku::create([
             'id_buku' => $newBook,
             'judul' => $request->judul,
@@ -99,40 +99,42 @@ class BukuController extends Controller
         return redirect()->route('buku.index')->with('success', 'Buku berhasil ditambahkan');
     }
 
-    // Display the specified book
+    // Menampilkan detail buku berdasarkan ID
     public function show($id)
     {
         $optionKategori = Kategori::all();
         $optionRak = Rak::all();
+
         $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
             ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
             ->where('tb_buku.id_buku', $id)
             ->select('tb_buku.*', 'tb_rak.*', 'tb_kategori.*')
             ->first();
+
         return view('buku.show', compact('buku', 'optionKategori', 'optionRak'));
     }
 
-    // Show the form for editing the specified book
+    // Menampilkan form edit buku
     public function edit($id)
     {
         $optionKategori = Kategori::all();
         $optionRak = Rak::all();
+
         $buku = Buku::join('tb_kategori', 'tb_kategori.id_kategori', '=', 'tb_buku.id_kategori')
             ->join('tb_rak', 'tb_rak.id_rak', '=', 'tb_buku.id_rak')
             ->where('tb_buku.id_buku', $id)
             ->select('tb_buku.*', 'tb_rak.*', 'tb_kategori.*')
             ->first();
+
         return view('buku.edit', compact('buku', 'optionKategori', 'optionRak'));
     }
 
-    // Update the specified book in storage
+    // Menyimpan perubahan buku ke database
     public function update(Request $request, $id)
     {
+        $buku = Buku::findOrFail($id); // Cari buku berdasarkan id
 
-        // Fetch the existing book record
-        $buku = Buku::findOrFail($id); // Fetch the book directly without joining
-
-        // Update the book using validated input or fallback to existing values
+        // Update data
         $buku->update([
             'judul' => $request->judul ?? $buku->judul,
             'isbn' => $request->isbn ?? $buku->isbn,
@@ -144,24 +146,22 @@ class BukuController extends Controller
             'id_rak' => $request->id_rak ?? $buku->id_rak,
         ]);
 
-        // Redirect with success message
         return redirect()->route('buku.index')->with('success', 'Buku berhasil diperbarui');
     }
 
-
-    // Remove the specified book from storage
+    // Menghapus buku
     public function destroy($id)
     {
         Buku::destroy($id);
         return redirect()->route('buku.index')->with('success', 'Buku berhasil dihapus');
     }
 
+    // Menampilkan riwayat peminjaman (fitur pencarian tersedia)
     public function history(Request $request)
     {
-
         $keyword = $request->input('keyword');
 
-        // Cek apakah user sudah melakukan pencarian atau belum
+        // Jika ada keyword, lakukan pencarian
         if ($keyword) {
             $peminjaman = Peminjaman::with(['anggota', 'buku', 'pengembalian.denda'])
                 ->where('id_peminjaman', 'like', "%$keyword%")
@@ -174,38 +174,13 @@ class BukuController extends Controller
                 })
                 ->get();
         } else {
-            $peminjaman = collect(); // Kalau belum search, tabel kosong
+            $peminjaman = collect(); // Kosong jika belum ada pencarian
         }
 
         return view('history', compact('peminjaman'));
     }
 
-
-    // public function history()
-    // {
-    //     // $pengembalian = Pengembalian::all();
-    //     // $peminjaman = Peminjaman::all();
-    //     $peminjaman = Peminjaman::with(['anggota', 'buku', 'pengembalian.denda'])->get();
-
-    //     return view('history', compact( 'peminjaman'));
-    // }
-
-    // public function historysearch(Request $request)
-    // {
-    //     $keyword = $request->input('keyword');
-
-    //     // Query pencarian
-    //     $peminjaman = Peminjaman::where('id_peminjaman', 'like', "%$keyword%")
-    //         // ->orWhere('nama_anggota', 'like', "%$keyword%")
-    //         // ->orWhere('judul', 'like', "%$keyword%")
-    //         // ->orWhere('penulis', 'like', "%$keyword%")
-    //         // ->orWhere('penerbit', 'like', "%$keyword%")
-    //         ->orWhere('status', 'like', "%$keyword%")
-    //         ->get();
-
-    //     // Kembalikan hasil ke view
-    //     return view('history', compact('peminjaman'));
-    // }
+    // Method khusus untuk pencarian history (bisa digabung dengan atas)
     public function historysearch(Request $request)
     {
         $keyword = $request->input('keyword');
@@ -224,6 +199,7 @@ class BukuController extends Controller
         return view('history', compact('peminjaman'));
     }
 
+    // Fitur pencarian buku untuk user/pengunjung
     public function caribuku(Request $request)
     {
         $keyword = $request->input('keyword');

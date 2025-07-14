@@ -114,7 +114,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-light px-4 py-2" href="{{ route('buku.history') }}">History</a>
+                        <a class="nav-link btn btn-outline-light px-4 py-2" href="{{ route('buku.caribuku') }}">Daftar Buku</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link btn btn-outline-light px-4 py-2" href="{{ route('login') }}">Login</a>
@@ -131,7 +131,7 @@
     <div class="table-responsive shadow-lg p-4 bg-body rounded">
         <form action="{{ route('buku.historysearch') }}" method="GET">
           <div class="input-group mb-3">
-              <input type="text" name="keyword" class="form-control" placeholder="Cari buku..." value="{{ request('keyword') }}">
+              <input type="text" name="keyword" class="form-control" placeholder="Cari Transaksi..." value="{{ request('keyword') }}">
               <button class="btn btn-primary" type="submit">Cari</button>
           </div>
           @if ($peminjaman->isNotEmpty())

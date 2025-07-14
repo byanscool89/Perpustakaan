@@ -16,9 +16,18 @@
             <input type="text" name="id_peminjaman" id="id_peminjaman" class="form-control" value="{{ $pengembalian->id_peminjaman }}" required>
         </div>
         <div class="mb-3">
-            <label for="id_denda" class="form-label">ID Denda</label>
-            <input type="text" name="id_denda" id="id_denda" class="form-control" value="{{ $pengembalian->id_denda }}" required>
+            <label for="id_denda" class="form-label">Kategori Denda</label>
+            <select class="form-control" id="id_denda" name="id_denda" required>
+                <option value="">-- Pilih Kategori Denda --</option>
+                @foreach($denda as $item)
+                    <option value="{{ $item->id_denda }}" 
+                        {{ $item->id_denda == $pengembalian->id_denda ? 'selected' : '' }}>
+                        {{ $item->kategori_denda }}
+                    </option>
+                @endforeach
+            </select>
         </div>
+        
         <div class="mb-3">
             <label for="id_petugas" class="form-label">ID Petugas</label>
             <input type="text" name="id_petugas" id="id_petugas" class="form-control" value="{{ $pengembalian->id_petugas }}" readonly>

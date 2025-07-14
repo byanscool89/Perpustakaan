@@ -12,27 +12,35 @@ use Carbon\Carbon;
 
 class PengembalianController extends Controller
 {
+    // Menampilkan semua data pengembalian
     public function index()
     {
         $pengembalian = Pengembalian::all();
         return view('pengembalian.index', compact('pengembalian'));
     }
 
+    // Menampilkan form untuk tambah data pengembalian
     public function create()
     {
+        // Ambil data peminjaman yang belum dikembalikan
         $peminjaman = Peminjaman::all()->where('status', 'dipinjam');
+        // Ambil semua jenis denda
         $denda = Denda::all();
         return view('pengembalian.create', compact('peminjaman', 'denda'));
     }
+
+    // Menampilkan form edit data pengembalian
     public function edit($id)
     {
         $pengembalian = Pengembalian::findOrFail($id);
-        return view('pengembalian.edit', compact('pengembalian'));
+        $denda = Denda::all(); 
+        return view('pengembalian.edit', compact('pengembalian','denda'));
     }
 
     // Memproses pembaruan data pengembalian
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'id_peminjaman' => 'required|integer',
             'id_denda' => 'required|integer',
@@ -41,6 +49,7 @@ class PengembalianController extends Controller
             'biaya_denda' => 'required|numeric|min:0',
         ]);
 
+        // Update data pengembalian
         $pengembalian = Pengembalian::findOrFail($id);
         $pengembalian->update([
             'id_peminjaman' => $request->id_peminjaman,
@@ -53,6 +62,7 @@ class PengembalianController extends Controller
         return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil diperbarui.');
     }
 
+    // Menghapus data pengembalian
     public function destroy($id)
     {
         $pengembalian = Pengembalian::findOrFail($id);
@@ -61,146 +71,94 @@ class PengembalianController extends Controller
         return redirect()->route('pengembalian.index')->with('success', 'Pengembalian berhasil dihapus.');
     }
 
+    // Menyimpan data pengembalian baru
     public function store(Request $request)
-{
-    $cek = $request->validate([
-        'tgl_dikembalikan' => 'required|date',
-        'id_peminjaman' => 'required',
-        'id_denda' => 'required',
-    ]);
+    {
+        // Validasi input
+        $cek = $request->validate([
+            'tgl_dikembalikan' => 'required|date',
+            'id_peminjaman' => 'required',
+            'id_denda' => 'required',
+        ]);
 
-    $getPeminjaman = Peminjaman::where('id_peminjaman', $request->id_peminjaman)->first();
-    if (!$getPeminjaman) {
-        return redirect()->back()->with('error', 'Peminjaman tidak ditemukan.');
+        // Ambil data peminjaman berdasarkan ID
+        $getPeminjaman = Peminjaman::where('id_peminjaman', $request->id_peminjaman)->first();
+        if (!$getPeminjaman) {
+            return redirect()->back()->with('error', 'Peminjaman tidak ditemukan.');
+        }
+
+        // Ambil data buku dari peminjaman
+        $id_buku = $getPeminjaman->id_buku;
+
+        // Generate ID pengembalian otomatis
+        $last = Pengembalian::count();
+        $idPengembalian = 'PBM' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
+
+        // Hitung denda keterlambatan (jika ada)
+        $tgl_kembali = $getPeminjaman->tgl_kembali;
+        $tgl_dikembalikan = $request->tgl_dikembalikan;
+        $denda_terlambat = Denda::where('id_denda', $request->id_denda)->first()->biaya;
+
+        $tgl_kembali_carbon = Carbon::createFromFormat('Y-m-d', $tgl_kembali);
+        $tgl_dikembalikan_carbon = Carbon::createFromFormat('Y-m-d', $tgl_dikembalikan);
+
+        // Jika dikembalikan lewat dari tanggal kembali, hitung denda
+        $jml_denda = $tgl_dikembalikan_carbon->greaterThan($tgl_kembali_carbon) ? 
+                     $denda_terlambat * $tgl_dikembalikan_carbon->diffInDays($tgl_kembali_carbon) : 0;
+
+        // Simpan data pengembalian
+        Pengembalian::create([
+            'id_petugas' => Auth::user()->id_petugas,
+            'id_pengembalian' => $idPengembalian,
+            'id_peminjaman' => $request->id_peminjaman,
+            'tgl_dikembalikan' => $tgl_dikembalikan,
+            'id_denda' => $request->id_denda,
+            'biaya_denda' => $jml_denda,
+            'id_buku' => $id_buku,
+        ]);
+
+        // Update status peminjaman menjadi "dikembalikan"
+        Peminjaman::where('id_peminjaman', $request->id_peminjaman)->update(['status' => 'dikembalikan']);
+
+        // Tambah stok buku yang dikembalikan
+        Buku::where('id_buku', $id_buku)->increment('stok', 1);
+
+        return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil disimpan');
     }
 
-    $id_buku = $getPeminjaman->id_buku;
-    $last = Pengembalian::count();
-    $idPengembalian = 'PBM' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
-    $tgl_kembali = $getPeminjaman->tgl_kembali;
-    $tgl_dikembalikan = $request->tgl_dikembalikan;
-    $denda_terlambat = Denda::where('id_denda', $request->id_denda)->first()->biaya;
-
-    $tgl_kembali_carbon = Carbon::createFromFormat('Y-m-d', $tgl_kembali);
-    $tgl_dikembalikan_carbon = Carbon::createFromFormat('Y-m-d', $tgl_dikembalikan);
-    $jml_denda = $tgl_dikembalikan_carbon->greaterThan($tgl_kembali_carbon) ?
-                 $denda_terlambat * $tgl_dikembalikan_carbon->diffInDays($tgl_kembali_carbon) : 0;
-
-    Pengembalian::create([
-        'id_petugas' => Auth::user()->id_petugas,
-        'id_pengembalian' => $idPengembalian,
-        'id_peminjaman' => $request->id_peminjaman,
-        'tgl_dikembalikan' => $tgl_dikembalikan,
-        'id_denda' => $request->id_denda,
-        'biaya_denda' => $jml_denda,
-        'id_buku' => $id_buku,
-    ]);
-
-    Peminjaman::where('id_peminjaman', $request->id_peminjaman)->update(['status' => 'dikembalikan']);
-    Buku::where('id_buku', $id_buku)->increment('stok', 1);
-
-    return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil disimpan');
-}
-
-    // public function store(Request $request)
-    // {
-    //     $cek = $request->validate([
-    //         'tgl_dikembalikan' => 'required|date',
-    //         'id_peminjaman' => 'required',
-    //         'id_denda' => 'required',
-    //     ]);
-
-    //     $getPeminjaman = Peminjaman::where('id_peminjaman', $request->id_peminjaman)->first();
-    //     $id_buku = $getPeminjaman->id_buku;
-    //     $last = Pengembalian::count();
-    //     $idPengembalian = 'PBM' . str_pad($last + 1, 3, '0', STR_PAD_LEFT);
-    //     $tgl_kembali = Peminjaman::where('id_peminjaman', $request->id_peminjaman)->first()->tgl_kembali;
-    //     $tgl_dikembalikan = $request->tgl_dikembalikan;
-    //     $denda_terlambat = Denda::where('id_denda', $request->id_denda)->first()->biaya;
-    //     $tgl_kembali_carbon = Carbon::createFromFormat('Y-m-d', $tgl_kembali);
-    //     $tgl_dikembalikan_carbon = Carbon::createFromFormat('Y-m-d', $tgl_dikembalikan);
-    //     $jml_denda = 0;
-
-    //     // ini baca saja if nya
-    //     if ($tgl_dikembalikan_carbon->greaterThan($tgl_kembali_carbon)) {
-    //         $hari_terlambat = $tgl_dikembalikan_carbon->diffInDays($tgl_kembali_carbon);
-    //         $jml_denda = $denda_terlambat * $hari_terlambat;
-    //     }
-
-    //     // ini if untuk menentukan kategori denda
-    //     $kategori_denda = Denda::where('id_denda', $request->id_denda)->first()->kategori_denda;
-    //     if ($kategori_denda == 'Terlambat') {
-    //         $total_denda = $jml_denda;
-    //     } else {
-    //         $denda_lain = Denda::where('id_denda', $request->id_denda)->first()->biaya;
-    //         $total_denda = $denda_lain;
-    //     }
-
-    //     Pengembalian::create([
-    //         'id_petugas' => Auth::user()->id_petugas,
-    //         'id_pengembalian' => $idPengembalian,
-    //         'id_peminjaman' => $request->id_peminjaman,
-    //         'tgl_dikembalikan' => $request->tgl_dikembalikan,
-    //         'id_denda' => $request->id_denda,
-    //         'biaya_denda' => $total_denda,
-    //         'id_buku' => $id_buku,
-    //     ]);
-
-    //     Peminjaman::where('id_peminjaman', $request->id_peminjaman)
-    //         ->update([
-    //             'status' => 'dikembalikan',
-    //         ]);
-
-    //     Buku::where('id_buku', $id_buku)->increment('stok', 1);
-
-    //     return redirect()->route('pengembalian.index')->with('success', 'Data pengembalian berhasil disimpan');
-    // }
-
+    // Menampilkan laporan pengembalian
     public function lapPengembalian(Request $request)
     {
-        $keyword = $request->input('keyword');
-        $pengembalian = Peminjaman::join('tb_anggota', 'tb_anggota.id_anggota', '=', 'tb_peminjaman.id_anggota')
-            ->join('tb_buku', 'tb_buku.id_buku', '=', 'tb_peminjaman.id_buku')
-            ->select('tb_peminjaman.*', 'tb_buku.judul', 'tb_anggota.nama_anggota')
-            ->where('tb_peminjaman.status', 'dikembalikan')
-            ->when($keyword, function ($query, $keyword) {
-                $query->where('tb_anggota.nama_anggota', 'like', "%$keyword%")
-                    ->orWhere('tb_buku.judul', 'like', "%$keyword%")
-                    ->orWhere('tb_peminjaman.id_peminjaman', 'like', "%$keyword%");
-            })
-            ->get();
-        return view('laporan_pengembalian.index', compact('pengembalian'));
+        // Ambil data pengembalian beserta relasi peminjamannya
+        $pengembalian = Pengembalian::with('peminjaman')->get();
+        $buku = Buku::all();
+        return view('laporan_pengembalian.index', compact('pengembalian','buku'));
     }
+
+    // Filter laporan pengembalian berdasarkan rentang tanggal
     public function filter(Request $request) {
         $start_date = $request->start_date;
         $end_date = $request->end_date;
 
         $query = Pengembalian::query();
 
-        // Cek apakah filter tanggal diisi
+        // Filter jika tanggal diisi
         if (!empty($start_date) && !empty($end_date)) {
-            $query->whereBetween('tgl_kembali', [$start_date, $end_date]);
+            $query->whereBetween('tgl_dikembalikan', [$start_date, $end_date]);
         }
 
-        // Ambil data pengembalian
-        $pengembalian = $query->with(['anggota', 'buku'])->get();
+        // Ambil hasil filter
+        $pengembalian = $query->get();
 
-        // Kirim data ke tampilan
+        // Kirim ke tampilan
         return view('laporan_pengembalian.index', compact('pengembalian', 'start_date', 'end_date'));
     }
 
-    public function print(Request $request)
+    // Cetak laporan pengembalian
+    public function print()
     {
-        $query = Pengembalian::query();
-
-        // Filter berdasarkan tanggal jika ada input
-        if ($request->has(['start_date', 'end_date'])) {
-            $query->whereBetween('tgl_kembali', [$request->start_date, $request->end_date]);
-        }
-
-        $pengembalian = $query->with(['anggota', 'buku'])->get();
-
+        // Ambil data pengembalian beserta relasi anggota & buku
+        $pengembalian = Pengembalian::with(['peminjaman.anggota', 'buku'])->get();
         return view('laporan_pengembalian.print', compact('pengembalian'));
     }
-
 }
